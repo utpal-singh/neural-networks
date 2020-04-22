@@ -20,7 +20,7 @@ class MLP(object):
       
       """
       
-      def __init__(self, num_inputs=3, num_hidden=[3,5], num_outputs=2):
+      def __init__(self, num_inputs=3, hidden_layers=[3,3], num_outputs=2):
             
             """
             Constructor for MLP. Takes a number of inputs, 
@@ -34,10 +34,10 @@ class MLP(object):
             """
             
             self.num_inputs = num_inputs
-            self.num_hidden = num_hidden
+            self.hidden_layers = hidden_layers
             self.num_outputs = num_outputs
             
-            layers = [self.num_inputs] + self.num_hidden + [self.num_outputs]
+            layers = [num_inputs] + hidden_layers + [num_outputs]
             
             #initiate random weights
             
@@ -94,7 +94,11 @@ class MLP(object):
                   
             return activations
       
-      def back_propagate(self, error):
+      
+      def _sigmoid_derivative(self, x):
+            return x * (1.0 - x)
+      
+      def back_propagate(self, error, verbose = False):
             
             #dE/dW_i = (y - a_[i+1])*(s'(h_[i+1]))*a_i
             #s'h_[i+1] = s(h_i+1)(1-s(h_[i+1]))
@@ -104,19 +108,35 @@ class MLP(object):
             for i in reversed(range(len(self.derivatives))):
                   activations = self.activations[i+1]
                   
+                  #delta = (y - a_[i+1])*(s'(h_[i+1]))
+                  
+                  delta = error * self._sigmoid_derivative(activations)
+                  delta_reshaped = delta.reshape(delta.shape[0], -1).T
+                  current_activations = self.activations[i]
+                  current_activations_reshaped = current_activations.reshape(current_activations.shape[0], -1)
+                  
+                  #dE/dW_i = (y - a_[i+1])*(s'(h_[i+1]))*a_i
+                  
+                  self.derivatives[i] = np.dot(current_activations_reshaped, delta_reshaped)
+                  
+                  error = np.dot(delta, self.weights[i].T)
+                  
+                  if verbose:
+                        print("Derivative for W{} is {}".format(i, self.derivatives[i]))
+                        
+            return error
+      
                   
       
       
 if __name__ == "__main__":
-      mlp = MLP()
+      mlp = MLP(2, [5], 1)
       
       #Create some inputs
-      inputs = np.random.rand(mlp.num_inputs)
+      input = np.array([0.1, 0.2])
+      target = np.array([0.3])
       
-      #Create forward propagations
-      outputs = mlp.forward_propagate(inputs)
+      output = mlp.forward_propagate(input)
+      error = target - output
       
-      #Print the results
-      print("The network input is: {}".format(inputs))
-      print("The nework output is: {}".format(outputs))
-      
+      mlp.back_propagate(error, verbose = True)
