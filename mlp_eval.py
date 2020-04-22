@@ -94,6 +94,18 @@ class MLP(object):
                   
             return activations
       
+      def back_propagate(self, error):
+            
+            #dE/dW_i = (y - a_[i+1])*(s'(h_[i+1]))*a_i
+            #s'h_[i+1] = s(h_i+1)(1-s(h_[i+1]))
+            #s_h[i+1] = a_[i+1]
+            
+            
+            for i in reversed(range(len(self.derivatives))):
+                  activations = self.activations[i+1]
+                  
+                  
+      
       
 if __name__ == "__main__":
       mlp = MLP()
