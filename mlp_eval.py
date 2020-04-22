@@ -127,10 +127,20 @@ class MLP(object):
             return error
       
                   
+      def gradient_descent(self, learning_rate):
+            for i in range(len(self.weights)):
+                  weights = self.weights[i]
+                  print("Original Weights W{} {}".format(i, weights))
+                  derivatives = self.derivatives[i]
+                  weights = weights + derivatives*learning_rate
+                  print('Updated Weights W{}{}'.format(i, weights))
+                  
+                  
+      
       
       
 if __name__ == "__main__":
-      mlp = MLP(2, [5], 1)
+      mlp = MLP(2, [5,5,5,5,5], 1)
       
       #Create some inputs
       input = np.array([0.1, 0.2])
@@ -139,4 +149,6 @@ if __name__ == "__main__":
       output = mlp.forward_propagate(input)
       error = target - output
       
-      mlp.back_propagate(error, verbose = True)
+      mlp.back_propagate(error, verbose=True)
+      
+      mlp.gradient_descent(0.1)
