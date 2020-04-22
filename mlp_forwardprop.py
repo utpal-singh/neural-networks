@@ -7,7 +7,7 @@ Created on Wed Apr 22 05:13:03 2020
 
 import numpy as np
 
-class multiANN():
+class MLP():
       
       def __init__(self, num_inputs=3, num_hidden=[3,5], num_outputs=2):
             
@@ -45,7 +45,7 @@ class multiANN():
 if __name__ == "__main__":
       
       #Create an MLP
-      mlp = multiANN()
+      mlp = MLP()
       
       #Create some inputs
       inputs = np.random.rand(mlp.num_inputs)
