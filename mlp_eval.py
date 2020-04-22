@@ -131,10 +131,10 @@ class MLP(object):
       def gradient_descent(self, learning_rate):
             for i in range(len(self.weights)):
                   weights = self.weights[i]
-                  print("Original Weights W{} {}".format(i, weights))
+#                  print("Original Weights W{} {}".format(i, weights))
                   derivatives = self.derivatives[i]
                   weights = weights + derivatives*learning_rate
-                  print('Updated Weights W{}{}'.format(i, weights))
+#                  print('Updated Weights W{}{}'.format(i, weights))
                   
                   
       def _mse(self, target, output):
@@ -156,7 +156,7 @@ class MLP(object):
                         
                         sum_error = sum_error + self._mse(target, output)
                         
-                  print("Error: {} at epoch{}".format(sum_error/len(inputs), i))
+                  print("Error: {} at epoch: {}".format(sum_error/len(inputs), i))
                         
                         
                         
@@ -177,6 +177,9 @@ if __name__ == "__main__":
 #      
 #      mlp.gradient_descent(0.1)
       
+      inputs = np.array([[random()/2 for _ in range(2)] for _ in range(1000)])
+      targets = np.array([[i[0] + i[1]] for i in inputs])
       mlp = MLP(2, [5], 1)
+      
       
       mlp.train(inputs, targets, 50, 0.1)
