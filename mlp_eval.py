@@ -124,7 +124,6 @@ class MLP(object):
                   
                   if verbose:
                         print("Derivative for W{} is {}".format(i, self.derivatives[i]))
-                        
             return error
       
                   
@@ -138,32 +137,19 @@ class MLP(object):
                   
                   
       def _mse(self, target, output):
-            return np.average((target-output)**2)
+            return np.average((target - output)**2)
                   
                   
       def train(self, inputs, targets, epochs, learning_rate):
             for i in range(epochs):
-                  
                   sum_error = 0
-                  
                   for input, target in zip(inputs, targets):
-                        
                         output = self.forward_propagate(input)
-                        
                         error = target - output
-      
                         self.back_propagate(error)
-      
                         self.gradient_descent(learning_rate)
-                        
                         sum_error = sum_error + self._mse(target, output)
-                        
-#                  print("Error: {} at epoch: {}".format(sum_error / len(inputs), i))
-                  print(sum_error)     
-                        
-                        
-      
-      
+                  print("Error: {} at epoch: {}".format(sum_error / len(inputs), i))
       
 if __name__ == "__main__":
 #      mlp = MLP(2, [5,5,5,5,5], 1)
@@ -179,9 +165,18 @@ if __name__ == "__main__":
 #      
 #      mlp.gradient_descent(0.1)
       
-      inputs = np.array([[random() / 2 for _ in range(2)] for _ in range(1000)])
+#      inputs = np.array([[random() / 2 for _ in range(2)] for _ in range(1000)])
+      inputs = np.random.rand(1000, 2)
       targets = np.array([[i[0] + i[1]] for i in inputs])
       mlp = MLP(2, [5], 1)
       
       
-      mlp.train(inputs, targets, 50, 1)
+      mlp.train(inputs, targets, 50, 0.1)
+      
+      input = np.array([0.1, 0.2])
+      target = np.array([0.3])
+      
+      output = mlp.forward_propagate(input)
+      
+      print(input[0], input[1], output[0])
+      
