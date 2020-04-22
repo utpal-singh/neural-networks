@@ -146,8 +146,10 @@ class MLP(object):
                   
                   sum_error = 0
                   
-                  for j, (input, target) in enumerate(zip(inputs, targets)):
+                  for input, target in zip(inputs, targets):
+                        
                         output = self.forward_propagate(input)
+                        
                         error = target - output
       
                         self.back_propagate(error)
@@ -156,8 +158,8 @@ class MLP(object):
                         
                         sum_error = sum_error + self._mse(target, output)
                         
-                  print("Error: {} at epoch: {}".format(sum_error/len(inputs), i))
-                        
+#                  print("Error: {} at epoch: {}".format(sum_error / len(inputs), i))
+                  print(sum_error)     
                         
                         
       
@@ -177,9 +179,9 @@ if __name__ == "__main__":
 #      
 #      mlp.gradient_descent(0.1)
       
-      inputs = np.array([[random()/2 for _ in range(2)] for _ in range(1000)])
+      inputs = np.array([[random() / 2 for _ in range(2)] for _ in range(1000)])
       targets = np.array([[i[0] + i[1]] for i in inputs])
       mlp = MLP(2, [5], 1)
       
       
-      mlp.train(inputs, targets, 50, 0.1)
+      mlp.train(inputs, targets, 50, 1)
