@@ -6,6 +6,7 @@ Created on Wed Apr 22 15:06:10 2020
 """
 
 import numpy as np
+from random import random
 
 #save activations and derivatives
 #implement backpropagation
@@ -136,19 +137,46 @@ class MLP(object):
                   print('Updated Weights W{}{}'.format(i, weights))
                   
                   
+      def _mse(self, target, output):
+            return np.average((target-output)**2)
+                  
+                  
+      def train(self, inputs, targets, epochs, learning_rate):
+            for i in range(epochs):
+                  
+                  sum_error = 0
+                  
+                  for j, (input, target) in enumerate(zip(inputs, targets)):
+                        output = self.forward_propagate(input)
+                        error = target - output
+      
+                        self.back_propagate(error)
+      
+                        self.gradient_descent(learning_rate)
+                        
+                        sum_error = sum_error + self._mse(target, output)
+                        
+                  print("Error: {} at epoch{}".format(sum_error/len(inputs), i))
+                        
+                        
+                        
       
       
       
 if __name__ == "__main__":
-      mlp = MLP(2, [5,5,5,5,5], 1)
+#      mlp = MLP(2, [5,5,5,5,5], 1)
+#      
+#      #Create some inputs
+#      input = np.array([0.1, 0.2])
+#      target = np.array([0.3])
+#      
+#      output = mlp.forward_propagate(input)
+#      error = target - output
+#      
+#      mlp.back_propagate(error, verbose=True)
+#      
+#      mlp.gradient_descent(0.1)
       
-      #Create some inputs
-      input = np.array([0.1, 0.2])
-      target = np.array([0.3])
+      mlp = MLP(2, [5], 1)
       
-      output = mlp.forward_propagate(input)
-      error = target - output
-      
-      mlp.back_propagate(error, verbose=True)
-      
-      mlp.gradient_descent(0.1)
+      mlp.train(inputs, targets, 50, 0.1)
