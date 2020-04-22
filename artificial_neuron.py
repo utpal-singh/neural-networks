@@ -7,15 +7,15 @@ Created on Wed Apr 22 04:00:03 2020
 
 import math
 
-def sigmoid(z):
-      y = 1.0/(1.0 + math.exp(-z))
-      return y
+def sigmoid(x):
+      z = 1.0/(1.0 + math.exp(-x))
+      return z
 
 def activate(inputs, weights):
-      a = 0
+      h = 0
       for x,w in zip(inputs, weights):
-            a = a + x*w
-      return sigmoid(a)
+            h = h + x*w
+      return sigmoid(h)
       
 if __name__ == "__main__":
       inputs = [0.5, 0.3, 0.2]
