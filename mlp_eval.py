@@ -8,16 +8,9 @@ Created on Wed Apr 22 15:06:10 2020
 import numpy as np
 from random import random
 
-#save activations and derivatives
-#implement backpropagation
-#implement gradient descent
-#implement train
-#train our net with some dummy dataset
-#make some predictions
-
 class MLP(object):
       """
-      A Multilayer Perceptron class
+      A Simple Multilayer Perceptron class
       
       """
       
