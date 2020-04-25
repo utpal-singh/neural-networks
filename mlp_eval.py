@@ -144,6 +144,7 @@ class MLP(object):
                         sum_error = sum_error + self._mse(target, output)
                   print("Error: {} at epoch: {}".format(sum_error / len(inputs), i))
       
+#Run an example model
 if __name__ == "__main__":
 #      mlp = MLP(2, [5,5,5,5,5], 1)
 #      
