@@ -15,11 +15,28 @@ class logistic_reg():
       """
       
       def __init__(self, x, y):
+            
+            """
+            Args:
+                  Input:
+                        x: Input a flattened feature matrix of image
+                        y: Output
+                        
+                  Returns:
+                        The parameter w, derivatives, gradient descent
+            
+            """
+            
             self.x = x
             self.y = y
             
             
       def Grad_des(self):
+            
+            """
+            Calculates Gradient Descent
+            
+            """
             
             m = x.shape[1]
             n = x.shape[0]
@@ -28,9 +45,9 @@ class logistic_reg():
             db = 0
             
             
-            z = np.zeros(m)
-            a = np.zeros(m)
-            dz = np.zeros(m)
+            z = np.zeros((m,1))
+            a = np.zeros((m,1))
+            dz = np.zeros((m,1))
             dw = np.zeros((n,1))
             
             for i in range(m):
@@ -46,9 +63,11 @@ class logistic_reg():
                   
                   for j in range(n):
                         dw[j] += np.dot(x[j], dz)
+                        
                   
       def _sigmoid(self, z):
             return 1/(1+np.exp(-z))
+      
                   
 if __name__ == "__main__":
       x = np.array([[.1,.2,.3,.4], [.5,.6,.7,.8], [.9,.10,.11,.12]])
