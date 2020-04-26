@@ -12,38 +12,61 @@ class LogisticReg():
       
       """
       
-      def __init__(m_test, alp):
+      def __init__(self, x, y, alp):
             """
             Args:
                   m_test = Inputs a number of training examples
                   No of feature of a training example is currently set to 2
                   x: A feature matrix
                   alp: learning rate
+                  y: a row matrix
             
             """
             
-            self.m_test = m_test
             self.alp = alp
+            self.y = y
             
-      def derivatives(self):
-            J = 0, dw_1 = 0, dw_2 = 0, db = 0
+      def _sigmoid(self, x):
+            return 1/(1+np.exp(-x))
+      
+      def GradDescent(self):
+            J = 0
+            dw_1 = 0
+            dw_2 = 0
+            db = 0
             b = np.random.randint(low = 0, high = 1)
-            w = np.random.randn(2, 1)
+            z = np.zeros(x.shape[0])
             
-            for i in range(self.m):
-                  z_sup_i = np.dot(w, x_sup_i) + b
-                  a_sup_i = _sigmoid(z_sup_i)
-                  J += -(y_sup_i*(np.log(a_sup_i) + (1-y_sup_i)*(np.log(1-a_sup_i))))
-                  dz_sup_i = a_sup_i - y_sup_i
-                  dw_1 += x_1_sup_i*dz_sup_i
-                  dw_2 += x_1_sup_i*dz_sup_i
-                  db += dz_sup_i
+            m = x.shape[1]
+            n = x.shape[0]
+            
+            
+            for i in range(m):
+                  w = np.random.randn(n, 1)
+                  dz = np.random.randn(n, 1)
+                  dw = np.random.randn(m, 1)
+                  
+                  
+                  a = np.random.randn(m,1)
+                  
+                  z[i] = np.dot(w.T, x[:, [i]]) + b
+#                        z[i] = w*x[:, [i]]
+                  a[i] = self._sigmoid(z[i])
+                  J += -(y[i]*(np.log(a[i]) + (1-y[i])*(np.log(1-a[i]))))
+                  dz[i] = a[i] - y[i]
+                  
+                  for j in range(n):
+                        dw[j] += x[j][i]*dz[i]
+                  db += dz[i]
                   
             J = J/m
-            dw_1 = dw_1/m
-            dw_2 = dw_2/m
-            db = db/m
+            print(J)
             
-            w_1 = w_1 - alp*dw_1
-            w_2 = w_2 - alp*dw_2
-            b = b - alp*db
+            
+if __name__ == '__main__':
+      x = np.array([[1,2,3,4],[2,3,4,5],[3,4,5,6]])
+      y = np.array([4,5,6,7])
+      alp = 2
+      logreg = LogisticReg(x,y,alp)
+      logreg.GradDescent()
+      
